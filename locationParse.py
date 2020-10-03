@@ -5,6 +5,8 @@ import requests
 import gpxpy
 import gpxpy.gpx
 
+import anm_api_test
+
 # TODO make sure the GPX file is taken from the user not a predefined file
 gpx_file = open('Prototype/testGPX.gpx', 'r')
 gpx = gpxpy.parse(gpx_file)
@@ -24,13 +26,27 @@ class MyTrack:
     TODO get the street names which will also be a part of the location 
 '''
 class Location:
-    def __init__(self, latitude: float, longitude: float, elevation: float, time: str):
+    def __init__(self, latitude: float, longitude: float, elevation: float, time: str, stName: str):
         self.latitude = latitude
         self.longitude =  longitude
         self.elevation = elevation
         self.time = time
-        # self.stName = stName
+        self.stName = stName
     
+
+def getStName(lat: float, lng: float ):
+
+
+
+    payload  = {"apiKey" : "58bd566df1854af4885c680dd2c42dc1", "version" : "4.10", 
+                "lat" : lat, "lon" : lng, "format" : "JSON"}
+
+    r = requests.get("http://geoservices.tamu.edu/Services/ReverseGeocoding/WebService/v04_01/Rest/", params=payload)
+    print(r.text)
+
+    result = json.loads(r.text)
+
+    return result["StreetAddresses"][0]["StreetAddress"]
 
 
 
@@ -39,4 +55,13 @@ for track in gpx.tracks:
     trackList.append(myTrack)
     for segment in track.segments:
         for point in segment.points:
-            myTrack.listLocation.append(Location(point.latitude, point.longitude, point.elevation, point.time))
+            myTrack.listLocation.append(Location(point.latitude, point.longitude, point.elevation, point.time, getStName(point.latitude, point,longitude)))
+
+
+for i in range(len(trackList)):
+    listLoc = trackList[i].listLocation
+    print(f'Track Number: {i}')
+    for j in range(len(listLoc)):
+        print('Entry {0}: latitude {1}, longitude {2}, elevation {3}, time {4}, street {5}'
+        .format(j, listLoc[j].latitude, listLoc[j].longitude, listLoc[j].elevation, listLoc[j].time, listLoc[j].stName))
+    print(f'Track Name: {trackList[i].trackName} Track Number: {i}')
