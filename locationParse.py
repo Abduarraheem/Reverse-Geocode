@@ -1,11 +1,14 @@
+'''
+Abduarraheem Elfandi and Juno Mayer.
+
+'''
 import os
 import utm
 import requests
 import sys
 import gpxpy
 import gpxpy.gpx
-
-import anm_api_test
+import json
 
 # TODO make sure the GPX file is taken from the user not a predefined file
 class MyTrack:
@@ -13,10 +16,11 @@ class MyTrack:
     def __init__(self, trackName):
         self.trackName = trackName
 
+
 '''
     A location is a part of a track which contains a latitude,
-    longitude, elevation and the time that location has been reached.
-    TODO get the street names which will also be a part of the location 
+    longitude, elevation, the time that location has been reached
+    and the street name of where that location is at.
 '''
 class Location:
     def __init__(self, latitude: float, longitude: float, elevation: float, time: str, stName: str):
@@ -28,14 +32,14 @@ class Location:
     
 
 def getStName(lat: float, lng: float ):
-
-
-
+    '''
+    Function that gets the street name given the latitude and longitude.
+    '''
     payload  = {"apiKey" : "58bd566df1854af4885c680dd2c42dc1", "version" : "4.10", 
                 "lat" : lat, "lon" : lng, "format" : "JSON"}
 
     r = requests.get("http://geoservices.tamu.edu/Services/ReverseGeocoding/WebService/v04_01/Rest/", params=payload)
-    print(r.text)
+    # print(r.text)
 
     result = json.loads(r.text)
     return result["StreetAddresses"][0]["StreetAddress"]
