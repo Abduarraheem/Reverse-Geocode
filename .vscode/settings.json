@@ -1,6 +1,0 @@
-{
-    "python.pythonPath": "C:\\Users\\Helazo\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe",
-    "python.linting.banditEnabled": false,
-    "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true
-}

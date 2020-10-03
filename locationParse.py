@@ -47,16 +47,12 @@ def getStName(lat: float, lng: float ):
 
 def main():
 
-    
-
     gpx_file = open(sys.argv[1], 'r')
     gpx = gpxpy.parse(gpx_file)
 
 
 
     trackList = [] # A list that will contain all the tracks
-
-
 
     for track in gpx.tracks:
         myTrack = MyTrack(track.name)
@@ -70,8 +66,9 @@ def main():
         listLoc = trackList[i].listLocation
         print(f'Track Number: {i}')
         for j in range(len(listLoc)):
-            print('Entry {0}: latitude {1}, longitude {2}, elevation {3}, time {4}, street {5}'
-            .format(j, listLoc[j].latitude, listLoc[j].longitude, listLoc[j].elevation, listLoc[j].time, listLoc[j].stName))
+            print(f'Entry {j}: latitude {listLoc[j].latitude}, longitude {listLoc[j].longitude}, '
+            f'elevation {listLoc[j].elevation}, time {listLoc[j].time}, street {listLoc[j].stName}')
+            
         print(f'Track Name: {trackList[i].trackName} Track Number: {i}')
 
 if __name__ == "__main__":
