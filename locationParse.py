@@ -1,20 +1,13 @@
 import os
 import utm
 import requests
-
+import sys
 import gpxpy
 import gpxpy.gpx
 
 import anm_api_test
 
 # TODO make sure the GPX file is taken from the user not a predefined file
-gpx_file = open('Prototype/testGPX.gpx', 'r')
-gpx = gpxpy.parse(gpx_file)
-
-
-
-trackList = [] # A list that will contain all the tracks
-
 class MyTrack:
     listLocation = []
     def __init__(self, trackName):
@@ -45,23 +38,37 @@ def getStName(lat: float, lng: float ):
     print(r.text)
 
     result = json.loads(r.text)
-
     return result["StreetAddresses"][0]["StreetAddress"]
 
 
+def main():
 
-for track in gpx.tracks:
-    myTrack = MyTrack(track.name)
-    trackList.append(myTrack)
-    for segment in track.segments:
-        for point in segment.points:
-            myTrack.listLocation.append(Location(point.latitude, point.longitude, point.elevation, point.time, getStName(point.latitude, point,longitude)))
+    
+
+    gpx_file = open(sys.argv[1], 'r')
+    gpx = gpxpy.parse(gpx_file)
 
 
-for i in range(len(trackList)):
-    listLoc = trackList[i].listLocation
-    print(f'Track Number: {i}')
-    for j in range(len(listLoc)):
-        print('Entry {0}: latitude {1}, longitude {2}, elevation {3}, time {4}, street {5}'
-        .format(j, listLoc[j].latitude, listLoc[j].longitude, listLoc[j].elevation, listLoc[j].time, listLoc[j].stName))
-    print(f'Track Name: {trackList[i].trackName} Track Number: {i}')
+
+    trackList = [] # A list that will contain all the tracks
+
+
+
+    for track in gpx.tracks:
+        myTrack = MyTrack(track.name)
+        trackList.append(myTrack)
+        for segment in track.segments:
+            for point in segment.points:
+                myTrack.listLocation.append(Location(point.latitude, point.longitude, point.elevation, point.time, getStName(point.latitude, point.longitude)))
+
+
+    for i in range(len(trackList)):
+        listLoc = trackList[i].listLocation
+        print(f'Track Number: {i}')
+        for j in range(len(listLoc)):
+            print('Entry {0}: latitude {1}, longitude {2}, elevation {3}, time {4}, street {5}'
+            .format(j, listLoc[j].latitude, listLoc[j].longitude, listLoc[j].elevation, listLoc[j].time, listLoc[j].stName))
+        print(f'Track Name: {trackList[i].trackName} Track Number: {i}')
+
+if __name__ == "__main__":
+    main()
