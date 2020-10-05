@@ -31,7 +31,7 @@ class Location:
         self.stName = stName
     
 
-def getStName(lat: float, lng: float ):
+def getStName(lat: float, lng: float):
     '''
     Function that gets the street name given the latitude and longitude.
     '''
@@ -47,6 +47,7 @@ def getStName(lat: float, lng: float ):
 
 def main():
 
+    # TODO need to change it so that we get the file from the website
     gpx_file = open(sys.argv[1], 'r')
     gpx = gpxpy.parse(gpx_file)
 
@@ -62,14 +63,16 @@ def main():
                 myTrack.listLocation.append(Location(point.latitude, point.longitude, point.elevation, point.time, getStName(point.latitude, point.longitude)))
 
 
+    # TODO need to make the output to the file a little more cleaner
+    output = open("output.txt", "w+")
     for i in range(len(trackList)):
         listLoc = trackList[i].listLocation
-        print(f'Track Number: {i}')
+        output.write(f'Track Number: {i}')
         for j in range(len(listLoc)):
-            print(f'Entry {j}: latitude {listLoc[j].latitude}, longitude {listLoc[j].longitude}, '
-            f'elevation {listLoc[j].elevation}, time {listLoc[j].time}, street {listLoc[j].stName}')
+            output.write(f'Entry {j}: latitude {listLoc[j].latitude}, longitude {listLoc[j].longitude}, ')
+            output.write(f'elevation {listLoc[j].elevation}, time {listLoc[j].time}, street {listLoc[j].stName} \n')
             
-        print(f'Track Name: {trackList[i].trackName} Track Number: {i}')
-
+        output.write(f'Track Name: {trackList[i].trackName} Track Number: {i}\n')
+    output.close()
 if __name__ == "__main__":
     main()
