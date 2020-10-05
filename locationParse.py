@@ -61,6 +61,7 @@ def main(file=''):
     # Technically I don't need this since we pass the
     # file through app.py but just to be safe
     if file == '':
+        print("No file given")
         return
     # TODO need to change it so that we get the file from the website
     gpx_file = open(file, 'r')
@@ -88,6 +89,7 @@ def main(file=''):
         for j in range(len(listLoc)):
             output.write(f'Entry {j}: latitude {listLoc[j].latitude}, longitude {listLoc[j].longitude}, ')
             output.write(f'elevation {listLoc[j].elevation}, time {listLoc[j].time}, street {listLoc[j].stName} \n')
+
     output.close()
 
 

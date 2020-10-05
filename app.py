@@ -11,13 +11,13 @@ app.config['UPLOAD_PATH'] = 'uploads'
 
 def index():
     if request.method == 'POST':
-        uploaded_file = request.files["gpx_file"]
+        uploaded_file = request.files["gpx_file"] # the file name is listed as gpx_file in index.html
         fileName = uploaded_file.filename
         if fileName != "":
-            uploaded_file.save(uploaded_file.filename)
-            locationParse.main(uploaded_file.filename)
-            
+            uploaded_file.save(uploaded_file.filename) # saves the file to the directory.
+            locationParse.main(uploaded_file.filename) # run the parsing which will generate an output.
         return redirect(url_for("index"))
+
     return render_template("index.html")
 
 
