@@ -12,17 +12,25 @@ import json
 
 # TODO make sure the GPX file is taken from the user not a predefined file
 class MyTrack:
+    '''
+        Each track will contain a name and a list of locations that are in that track segment.
+    '''
     listLocation = []
     def __init__(self, trackName):
         self.trackName = trackName
 
 
-'''
-    A location is a part of a track which contains a latitude,
-    longitude, elevation, the time that location has been reached
-    and the street name of where that location is at.
-'''
+
 class Location:
+    '''
+        A location is a part of a track which contains a latitude,
+        longitude, elevation, the time that location has been reached
+        and the street name of where that location is at.
+        
+        Then a group of locations will all be put into a list of location for that specific track.
+
+    '''
+
     def __init__(self, latitude: float, longitude: float, elevation: float, time: str, stName: str):
         self.latitude = latitude
         self.longitude =  longitude
@@ -44,11 +52,18 @@ def getStName(lat: float, lng: float):
     result = json.loads(r.text)
     return result["StreetAddresses"][0]["StreetAddress"]
 
+#TODO I feel like there is a better way to get the file 
+# instead of having it as a parameter in main
+# or just something better in general
+#- Note from Abduarraheem 
+def main(file=''):
 
-def main():
-
+    # Technically I don't need this since we pass the
+    # file through app.py but just to be safe
+    if file == '':
+        return
     # TODO need to change it so that we get the file from the website
-    gpx_file = open(sys.argv[1], 'r')
+    gpx_file = open(file, 'r')
     gpx = gpxpy.parse(gpx_file)
 
 
@@ -63,16 +78,19 @@ def main():
                 myTrack.listLocation.append(Location(point.latitude, point.longitude, point.elevation, point.time, getStName(point.latitude, point.longitude)))
 
 
+
     # TODO need to make the output to the file a little more cleaner
+
     output = open("output.txt", "w+")
     for i in range(len(trackList)):
-        listLoc = trackList[i].listLocation
-        output.write(f'Track Number: {i}')
+        output.write(f'Track Name: {trackList[i].trackName} Track Number: {i}\n')
+        listLoc = trackList[i].listLocation # will contain the list of locations in the current track
         for j in range(len(listLoc)):
             output.write(f'Entry {j}: latitude {listLoc[j].latitude}, longitude {listLoc[j].longitude}, ')
             output.write(f'elevation {listLoc[j].elevation}, time {listLoc[j].time}, street {listLoc[j].stName} \n')
-            
-        output.write(f'Track Name: {trackList[i].trackName} Track Number: {i}\n')
     output.close()
+
+
+
 if __name__ == "__main__":
     main()

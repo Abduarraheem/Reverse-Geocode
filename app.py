@@ -1,14 +1,22 @@
 from flask import Flask, render_template, url_for, request, redirect
 
-app = Flask(__name__)
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField
+from wtforms import SubmitField
+import locationParse
 
+app = Flask(__name__)
+app.config['UPLOAD_PATH'] = 'uploads'
 @app.route('/', methods=['GET', 'POST'])
 
 def index():
     if request.method == 'POST':
         uploaded_file = request.files["gpx_file"]
-        if uploaded_file.filename != "":
+        fileName = uploaded_file.filename
+        if fileName != "":
             uploaded_file.save(uploaded_file.filename)
+            locationParse.main(uploaded_file.filename)
+            
         return redirect(url_for("index"))
     return render_template("index.html")
 
