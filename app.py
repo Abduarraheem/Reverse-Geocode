@@ -33,7 +33,7 @@ def index():
             uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], fileName))   # uploaded_file.filename) # saves the file to the directory.
             #uploaded_file.save(uploaded_file.filename) # saves the file to the directory.
             #TODO figure out how to read the data and then 
-            locationParse.main(uploaded_file.filename) # run the parsing which will generate an output.
+            locationParse.main('TestFiles/' + uploaded_file.filename) # run the parsing which will generate an output.
         return redirect(url_for("index"))
 
     return render_template("index.html")
