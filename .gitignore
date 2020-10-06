@@ -2,5 +2,8 @@
 .pytest_cache/
 __pycache__/
 venv/
+# juno's env 
+env/
+# -- 
 project_env/
 output.txt
