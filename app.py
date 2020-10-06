@@ -9,7 +9,7 @@ from werkzeug.exceptions import HTTPException, default_exceptions, Aborter
 import locationParse
 
 
-class FileTypeException(HTTPException):
+class FileTypeException(HTTPException):   # this error is thrown when the file type is incorrect
     code = 400
     description = 'Error: File Type Incorrect!'
 
@@ -26,17 +26,20 @@ def index():
         uploaded_file = request.files["gpx_file"] # the file name is listed as gpx_file in index.html
         fileName = secure_filename(uploaded_file.filename)
         if fileName != "":
+            
             # next 3 lines validate the file type
             file_ext = os.path.splitext(fileName)[1]
             if file_ext not in app.config['UPLOAD_EXTENSIONS']:
                 abort(400)
-            uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], fileName))   # uploaded_file.filename) # saves the file to the directory.
-            #uploaded_file.save(uploaded_file.filename) # saves the file to the directory.
-            #TODO figure out how to read the data and then 
+
+            #save the file in the given directory
+            uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], fileName))
+
+            #calls main in location parse with the file in the upload path            
             locationParse.main('TestFiles/' + uploaded_file.filename) # run the parsing which will generate an output.
         return redirect(url_for("index"))
 
-    return render_template("index.html")
+    return render_template("index.html"), 200
 
 
 @app.errorhandler(404)
