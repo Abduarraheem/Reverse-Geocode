@@ -41,7 +41,7 @@ def callMapBox():
     """
    
 for elem in tree.findall("{http://www.topografix.com/GPX/1/1}wpt"):
-    print elem, elem.attrib['lon'], elem.attrib['lat']
+    print elem.attrib['lon'], elem.attrib['lat']
 
     pp = pprint.PrettyPrinter(indent=4)
 
