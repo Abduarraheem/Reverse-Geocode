@@ -4,12 +4,56 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="static/style.css">
+
+        <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+        <link rel="stylesheet" href="../static/font-awesome.min.css">
+        <link rel="stylesheet" href="../static/font-awesome.css">
+        <script src="https://kit.fontawesome.com/75ff20203d.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;500&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="../static/style.css">
+        <!-- <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='/style.css') }}"> -->
+        <!-- <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='/font-awesome.min.css') }}"> -->
+        <!-- <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='/font-awesome.css') }}"> -->
         <title>Reverse Geocoding</title>
     </head>
 
+
 <body>
-    <h1>Reverse Geocoding base</h1>
+    <div class="nav-menu"> 
+        <div class="bar top"></div> <!--top bar of menu-->
+        <div class="bar"></div>     <!--mid bar of menu-->
+        <div class="bar bot"></div> <!--bottom bar of menu-->
+    </div>
+    <nav class="top-nav">
+        <ul class="nav-list">
+
+            <li class="nav-item">
+                <a href="#Home" class="nav-link">Home</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="#About" class="nav-link">About</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="#Contact" class="nav-link">Contact</a>
+            </li>
+            <li class="nav-social"> 
+                <div class="socials">
+                    <a href="https://github.com/Abduarraheem/Reverse-Geocode" class="icon-link" target="_blank">
+                        <i class="fa fa-github" aria-hidden="true"></i>
+                    </a>
+                    <!-- <a href="https://www.linkedin.com/" class="icon-link" target="_blank">
+                        <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+                    </a> -->
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+
+    <h1 class="title">Reverse Geocoding Base</h1>
     <h2>Upload GPX file here.</h2>
 
     <!-- action could is where we should send the file  -->
@@ -17,6 +61,11 @@
         <p><input type="file" name="gpx_file" required></p>
         <p><input type="submit" name="Submit" value="Submit"></p>
     </form>
+
+    <output></output>
+
+
+    <script src="main.js"></script>
 </body>
 
 </html>
