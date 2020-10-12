@@ -1,26 +1,47 @@
+:root {
+    --primary-color: #302AE6;
+    --secondary-color: #536390;
+    --font-color:rgb(41, 41, 43);
+    --link-font-color: rgb(137, 137, 141);
+    --bg-color: rgba(75,207,250,1);
+    /* --heading-color: #292922; */
+
+}
+
 *{
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
+    
+}
+[data-mode="dark"] {
+    --font-color: #fad6b9;
+    --link-font-color:#e1e1ff;
+    --bg-color: #232835;
+    --heading-color: #818cab;
 }
 
 body{
     font-family: 'Open Sans', sans-serif;
     padding: 0;
-    /* background-image: linear-gradient( 95.2deg,  rgba(173,252,234,1) 26.8%, rgba(192,229,246,1) 64% ); */
-    background-image: linear-gradient( 91.9deg,  rgba(75,207,250,1) 6.3%, rgba(25,159,249,1) 98.9% );
-    
+    background-color: var(--bg-color);
+    transition: background 0.4s;
+    color: var(--font-color);
 }
+
+
+
 
 a{
     text-decoration: none;
-    color: #eee;
+    color: var(--font-color);
 }
 
+/*Start of Navbar and its content*/
 .top-nav{
-    width: 100%;
-    position: fixed;
-    height: 3rem;
+    width: 100%; /*Use 100% of the body width*/
+    position: fixed; /*Position of the nav bar will be fixed*/
+    height: 3rem; /*Height of the nav bar*/
     background-color: rgb(15, 15, 15);
     /* background: linear-gradient( 111.1deg,  rgba(0,40,70,1) -4.8%, rgb(1, 66, 116) 82.7%, rgb(4, 113, 196) 97.2% ); */
     overflow: hidden;
@@ -30,47 +51,46 @@ a{
     border-bottom-right-radius: 0.8rem; */
 }
 
-
+/*Navbar links properties*/
 .nav-link{    
     /* font-size: 100%; */
     font-family: 'Saira', sans-serif;
     display: flex;
     text-decoration: none;
     filter: grayscale(100%) opacity(5);
-    text-decoration-color: white;
+    /* text-decoration-color: white; */
 }
 
+
+/*Navbar link color*/
 a.nav-link{
-    color:rgba(255,255,255,0.5);
+    color:var( --link-font-color);
 }
 
+/*hovering over a link in the navbar*/
 .nav-link:hover{
-    display: flex;
-    filter: grayscale(0%) opacity(1);
+    /* display: flex;
+    filter: grayscale(0%) opacity(1); */
     background: linear-gradient(to top,  rgb(20, 20, 20), rgb(39, 39, 39));
 }
 
+/*when the link in the nav bar is clicked on*/
 .nav-link:active{
-    display: flex;
-    filter: grayscale(0%) opacity(1);
+    /* display: flex;
+    filter: grayscale(0%) opacity(1); */
     color: white;
 }
 
-
-.title{
-    padding-top: 50px;
-    text-align: center;
-    font-size: 50px;    
-}
-
+/*properties for the social icons*/
 .socials i{
-    padding: 10px;
+    padding: 6px;
     margin: 2px, 1px;
     font-size: 2rem;
     position: relative;
 
 }
 
+/*properties for the github icon*/
 .fa-github{
     overflow: hidden;
     background-size: 100% 200%; 
@@ -82,14 +102,15 @@ a.nav-link{
       background-position .3s ease-in-out, 
       color .2s ease-in-out;
 }
-.fa-github:hover, .fa-github:focus{
 
-    background-color: linear-gradient(to top,  rgb(102, 187, 212) , rgb(82, 54, 238));
+/*properties for the github icon when hovered over, make color transition*/
+.fa-github:hover, .fa-github:focus{
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-position: 0 100%;
 }
 
+/* Switch properites*/
 .switch{
     position: relative;
     width: 60px;
@@ -103,9 +124,9 @@ a.nav-link{
     opacity: 0;
     width: 0;
     height: 0;
-
 }
 
+/*Set up slider box*/
 .slider {
     position: absolute;
     cursor: pointer;
@@ -118,34 +139,85 @@ a.nav-link{
     transition: .4s;
     border-radius: 34px;    
 }
+
+
+/*Set up slider circle that is inside the box*/
 .slider:before {
     position: absolute;
-    content: ""; /*Creats some conetent so we can have a cirlce*/
+    content: ""; /*Creates some conetent so we can have a cirlce*/
     height: 20px;
     width: 20px;
     left: 3px;
     top: 2px;
     bottom: 4px;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(245, 189, 35);
     -webkit-transition: .4s;
     transition: .4s;
     border-radius: 34px; /*Set the raidus of the content to be 1 so we get something like a circle*/
   }
 
+/*Make the silder circle move when clicked on the slider*/
 input:checked +.slider:before{
     -webkit-transform: translateX(34px);
     -ms-transform: translateX(34px);
     transform: translateX(34px);
+    background-color: rgb(255, 255, 255);
 }
 
+/*Set background of the slider after being clicked*/
 input:checked +.slider{
     background-color: #454647;
 }
+/*End of nav bar contents*/
+
+.title{
+    padding-top: 50px;
+    text-align: center;
+    font-size: 50px;    
+}
+
+
+
+/* #upload {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+
+} */
+
+/* label.input-label input[type=file]{
+    position:absolute;
+    top: -1000px;
+} */
+
+/* label.input-label +span{
+
+    
+} */
+
+
+.submit-btn {
+    cursor: pointer;
+    font-family: 'Saira', sans-serif;
+    padding: 0.7rem 3rem;
+    position: absolute;
+    overflow: hidden;
+    /* display: inline-block; */
+    display: flex;
+
+}
+
+
+/*Mobile view*/
 @media only screen and (max-width:800px){
     .nav-list{
         display: none;
-    
     }
+
+    /*Nav menu*/
     .nav-menu{
         position: fixed;
         display: flex;
@@ -163,7 +235,8 @@ input:checked +.slider{
         /* margin:0; */
     }
     
-    .bar{ /* some properties for the 3 bar lines*/
+    /* some properties for the 3 bar lines*/
+    .bar{ 
         background: linear-gradient(to left, rgb(213, 214, 221), rgb(168, 171, 173));
         width: 100%; /*Use 100% of the width set in .nav-menu*/
         height: 4px;
@@ -175,18 +248,21 @@ input:checked +.slider{
 @media only screen and (min-width:801px){
     .nav-link{    
         align-items: center;
-        padding:  0.8rem 3rem;
+        padding: 0.7rem 3rem;
         flex-direction: row;
     }
 
-    /* .nav-item{ 
-        margin: 0% 0% 0% 5rem;
-    } */
+    /*Nav list formating
+    basically make it use
+    all of the height of the nav bar
+    and make all the items in the lsit spaced evenly
+    */
     .nav-list{
         /* position: absolute; */
         list-style: none;
-        margin: 0;
+        /* margin: 0; */
         display: flex;
+        /* height: 100%; */
         justify-content: space-evenly; /*Align the flex items at the evenly of the container*/
       
     }

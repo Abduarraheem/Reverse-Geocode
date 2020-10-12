@@ -51,8 +51,8 @@
             </li>
             <li class="nav-item">
                 <label class="switch">
-                    <input type="checkbox">
-                    <span class="slider round"></span>
+                    <input type="checkbox" id="checkbox" />
+                    <span class="slider"></span>
                 </label>
             </li>
         </ul>
@@ -64,14 +64,18 @@
 
     <!-- action could is where we should send the file  -->
     <form method="POST" action="" enctype="multipart/form-data">
-        <p><input type="file" name="gpx_file" required></p>
-        <p><input type="submit" name="Submit" value="Submit"></p>
+        <button class="upload-btn">Upload File
+            <input type="file" name="gpx_file" required>
+        </button>
+        <!-- <button class="submit-btn">Submit -->
+        <input class="submit-btn" type="submit" name="Submit" value="Submit">
+        <!-- </button> -->
     </form>
 
     <output></output>
 
 
-    <script src="main.js"></script>
+    <script src="../static/main.js"></script>
 </body>
 
 </html>
