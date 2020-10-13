@@ -5,7 +5,7 @@ from werkzeug.exceptions import HTTPException, default_exceptions, Aborter
 #from flask_wtf import FlaskForm
 #from flask_wtf.file import FileField
 #from wtforms import SubmitField
-
+import pprint
 import locationParse
 
 
@@ -26,7 +26,7 @@ def index():
         uploaded_file = request.files["gpx_file"] # the file name is listed as gpx_file in index.html
         fileName = secure_filename(uploaded_file.filename)
         if fileName != "":
-            
+
             # next 3 lines validate the file type
             file_ext = os.path.splitext(fileName)[1]
             if file_ext not in app.config['UPLOAD_EXTENSIONS']:
@@ -36,8 +36,13 @@ def index():
             uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], fileName))
 
             #calls main in location parse with the file in the upload path            
-            locationParse.main('TestFiles/' + uploaded_file.filename) # run the parsing which will generate an output.
-        return redirect(url_for("index"))
+            cuesheet = locationParse.main('TestFiles/' + uploaded_file.filename) # run the parsing which will generate an output.
+            #cuesheet contains the JSON object and instructions is a list of the values for instructions within the JSON object
+            pprint.pprint(cuesheet)
+            instructions = [cue['Manuever'] for cue in cuesheet['cuesheet']]
+
+        return render_template("index.html", instructions = instructions )
+        #return redirect(url_for("index"))
 
     return render_template("index.html"), 200
 

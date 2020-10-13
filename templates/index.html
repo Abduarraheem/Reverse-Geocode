@@ -76,6 +76,23 @@
 
 
     <script src="../static/main.js"></script>
+
+    <table>
+        <thead>
+          <tr>
+            <th> Instruction:  </th>
+          </tr>
+        </thead>
+        
+        <tbody>
+        {% for item in instructions %}
+        <tr>
+          <td>{{item}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
 </body>
 
 </html>

@@ -10,7 +10,7 @@ import gpxpy
 import gpxpy.gpx
 import json
 from configparser import ConfigParser
-import simplify
+from simplify import giveCueSheet
 
 # TODO make sure the GPX file is taken from the user not a predefined file
 class MyTrack:
@@ -75,29 +75,32 @@ def main(file=''):
 
     #TODO: ALEX -- Call giveCueSheet(gpx_file)and comment out stuff we dont need,
     # givecuesheet returns a json file 
-
-    trackList = [] # A list that will contain all the tracks
-
-    for track in gpx.tracks:
-        myTrack = MyTrack(track.name)
-        trackList.append(myTrack)
-        for segment in track.segments:
-            for point in segment.points:
-                myTrack.listLocation.append(Location(point.latitude, point.longitude, point.elevation, point.time, getStName(point.latitude, point.longitude)))
+    return giveCueSheet(gpx)
 
 
 
-    # TODO need to make the output to the file a little more cleaner
+    # trackList = [] # A list that will contain all the tracks
 
-    output = open("output.txt", "w+")
-    for i in range(len(trackList)):
-        output.write(f'Track Name: {trackList[i].trackName} Track Number: {i}\n')
-        listLoc = trackList[i].listLocation # will contain the list of locations in the current track
-        for j in range(len(listLoc)):
-            output.write(f'Entry {j}: latitude {listLoc[j].latitude}, longitude {listLoc[j].longitude}, ')
-            output.write(f'elevation {listLoc[j].elevation}, time {listLoc[j].time}, street {listLoc[j].stName} \n')
+    # for track in gpx.tracks:
+    #     myTrack = MyTrack(track.name)
+    #     trackList.append(myTrack)
+    #     for segment in track.segments:
+    #         for point in segment.points:
+    #             myTrack.listLocation.append(Location(point.latitude, point.longitude, point.elevation, point.time, getStName(point.latitude, point.longitude)))
 
-    output.close()
+
+
+    # # TODO need to make the output to the file a little more cleaner
+
+    # output = open("output.txt", "w+")
+    # for i in range(len(trackList)):
+    #     output.write(f'Track Name: {trackList[i].trackName} Track Number: {i}\n')
+    #     listLoc = trackList[i].listLocation # will contain the list of locations in the current track
+    #     for j in range(len(listLoc)):
+    #         output.write(f'Entry {j}: latitude {listLoc[j].latitude}, longitude {listLoc[j].longitude}, ')
+    #         output.write(f'elevation {listLoc[j].elevation}, time {listLoc[j].time}, street {listLoc[j].stName} \n')
+
+    # output.close()
 
 
 
