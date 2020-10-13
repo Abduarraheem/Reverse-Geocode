@@ -10,6 +10,7 @@ import gpxpy
 import gpxpy.gpx
 import json
 from configparser import ConfigParser
+import simplify
 
 # TODO make sure the GPX file is taken from the user not a predefined file
 class MyTrack:
@@ -72,7 +73,8 @@ def main(file=''):
     gpx_file = open(file, 'r')
     gpx = gpxpy.parse(gpx_file)
 
-
+    #TODO: ALEX -- Call giveCueSheet(gpx_file)and comment out stuff we dont need,
+    # givecuesheet returns a json file 
 
     trackList = [] # A list that will contain all the tracks
 
