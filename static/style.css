@@ -1,9 +1,14 @@
 :root {
     --primary-color: #302AE6;
     --secondary-color: #536390;
-    --font-color:rgb(41, 41, 43);
+    --font-color: #232835;
     --link-font-color: rgb(137, 137, 141);
-    --bg-color: rgba(75,207,250,1);
+    /* --bg-color: rgba(75,207,250,1); */
+    --bg-color: #fab883;
+    --button-color: rgb(41, 41, 43);
+    --button-color: #232835;
+    --button-color-hover: #39435c;
+    --button-color-text: white;
     /* --heading-color: #292922; */
 
 }
@@ -15,10 +20,13 @@
     
 }
 [data-mode="dark"] {
-    --font-color: #fad6b9;
+    --font-color: #fab883;
     --link-font-color:#e1e1ff;
     --bg-color: #232835;
     --heading-color: #818cab;
+    --button-color: #fab883;
+    --button-color-hover: #faa763;
+    --button-color-text: black;
 }
 
 body{
@@ -45,17 +53,25 @@ a{
     background-color: rgb(15, 15, 15);
     /* background: linear-gradient( 111.1deg,  rgba(0,40,70,1) -4.8%, rgb(1, 66, 116) 82.7%, rgb(4, 113, 196) 97.2% ); */
     overflow: hidden;
-    align-items: center;
-    /* z-index:1500; */
+    /* align-items: center; */
+    z-index: 2;
     /* border-top-right-radius: 0.8rem;
     border-bottom-right-radius: 0.8rem; */
+}
+
+.nav-list{
+    list-style: none;
+    display: flex;
+    height: 100%; /*Use 100% of the height of the nav bar*/
+    /* width: 100%; */
+    justify-content: space-evenly; /*Align the flex items at the evenly of the container*/
+    /* align-items: center; */
 }
 
 /*Navbar links properties*/
 .nav-link{    
     /* font-size: 100%; */
     font-family: 'Saira', sans-serif;
-    display: flex;
     text-decoration: none;
     filter: grayscale(100%) opacity(5);
     /* text-decoration-color: white; */
@@ -67,12 +83,6 @@ a.nav-link{
     color:var( --link-font-color);
 }
 
-/*hovering over a link in the navbar*/
-.nav-link:hover{
-    /* display: flex;
-    filter: grayscale(0%) opacity(1); */
-    background: linear-gradient(to top,  rgb(20, 20, 20), rgb(39, 39, 39));
-}
 
 /*when the link in the nav bar is clicked on*/
 .nav-link:active{
@@ -112,11 +122,12 @@ a.nav-link{
 
 /* Switch properites*/
 .switch{
-    position: relative;
+    position: fixed;
     width: 60px;
     height: 24px;
     display: flex;
     top: 10px;
+    right: 0.4rem;
 }
 
 /* Hide default HTML checkbox */
@@ -207,15 +218,18 @@ input:checked +.slider{
     overflow: hidden;
     /* display: inline-block; */
     display: flex;
+    background-color: var(--button-color);
+    border-radius: 1rem;
+    border: none;
+    color:var(--button-color-text);
+    /* border-collapse: collapse; */
 
 }
-
-
+.submit-btn:hover, .submit-btn:focus {
+    background-color: var(--button-color-hover);
+}
 /*Mobile view*/
 @media only screen and (max-width:800px){
-    .nav-list{
-        display: none;
-    }
 
     /*Nav menu*/
     .nav-menu{
@@ -229,12 +243,12 @@ input:checked +.slider{
         flex-flow: column;
         
         top: 0.5rem;
-        right: 0.8rem;
+        left: 0.8rem;
         width: 2.4rem;
         height: 2rem; /* Height of each bar similar as the justify-content*/
         /* margin:0; */
     }
-    
+
     /* some properties for the 3 bar lines*/
     .bar{ 
         background: linear-gradient(to left, rgb(213, 214, 221), rgb(168, 171, 173));
@@ -242,13 +256,44 @@ input:checked +.slider{
         height: 4px;
         /* border-radius: .8rem; */
     }
+
+    .nav-list{
+        top:-100%;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        background-color: rgb(15, 15, 15);
+        pointer-events: none;
+        flex-direction: column;
+        transition:all 700ms cubic-bezier(1,0,0,1);
+        align-items: center;
+
+    }
+
+    .nav-list.open{
+        top: 0;
+        transition:all 700ms cubic-bezier(1,0,0,1);
+        pointer-events: all;
+        font-size: 2rem;
+    }
+
+
+    /* .top-nav{
+        transition:all 700ms cubic-bezier(1,0,0,1);
+    }
+    .top-nav.open{
+        height: 100%;
+        transition:all 700ms cubic-bezier(1,0,0,1);
+    } */
 }
 
 
 @media only screen and (min-width:801px){
+
     .nav-link{    
-        align-items: center;
+        /* align-items: center; */
         padding: 0.7rem 3rem;
+        display: flex;
         flex-direction: row;
     }
 
@@ -257,13 +302,19 @@ input:checked +.slider{
     all of the height of the nav bar
     and make all the items in the lsit spaced evenly
     */
-    .nav-list{
-        /* position: absolute; */
-        list-style: none;
-        /* margin: 0; */
-        display: flex;
-        /* height: 100%; */
-        justify-content: space-evenly; /*Align the flex items at the evenly of the container*/
+    /* .nav-list{
+        position: absolute;
+        margin: 0;
+        justify-content: space-evenly; 
+        height: 100%;
+        display: flex;;
       
+    } */
+    /*hovering over a link in the navbar*/
+    .nav-link:hover{
+        /* display: flex;
+        filter: grayscale(0%) opacity(1); */
+        background: linear-gradient(to top,  rgb(20, 20, 20), rgb(39, 39, 39));
     }
+
 }

@@ -32,3 +32,14 @@ if (currentMode) {
         pressSwitch.checked = true;
     }
 }
+
+
+/*Nav menu button*/
+const navBtn = document.querySelector('.nav-menu'); 
+const navBar = document.querySelector('.top-nav');
+const navList = document.querySelector('.nav-list');
+navBtn.addEventListener('click',()=>{
+    navBtn.classList.toggle("open");
+    navBar.classList.toggle("open");
+    navList.classList.toggle("open");
+});
