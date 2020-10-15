@@ -18,7 +18,7 @@ abort = Aborter()
 
 app = Flask(__name__)
 app.config['UPLOAD_PATH'] = 'TestFiles'
-app.config['UPLOAD_EXTENSIONS'] = ['.gpx'] # can add other file types in the list
+app.config['UPLOAD_EXTENSIONS'] = ['.gpx', '.xml'] # can add other file types in the list
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -39,7 +39,14 @@ def index():
             cuesheet = locationParse.main('TestFiles/' + uploaded_file.filename) # run the parsing which will generate an output.
             #cuesheet contains the JSON object and instructions is a list of the values for instructions within the JSON object
             pprint.pprint(cuesheet)
-            instructions = [cue['Manuever'] for cue in cuesheet['cuesheet']]
+            
+
+            #instructions = [cue['Manuever'] for cue in cuesheet['cuesheet']]
+            instructions = []
+            for cue in cuesheet['cuesheet']:
+                instructions.append(cue['Manuever'])
+                # TODO: change so that it appends tuples where the first element is the manuever while the second is the distance (m)
+                # TODO: then add the logic so anything above 1000 m is shown as km and anything below is in m
 
         return render_template("index.html", instructions = instructions )
         #return redirect(url_for("index"))
