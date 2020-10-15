@@ -64,38 +64,38 @@
 
 
     <h1 class="title">Reverse Geocoding Base</h1>
-    <h2>Upload GPX file here.</h2>
+    
 
-    <!-- action could is where we should send the file  -->
-    <form method="POST" action="" enctype="multipart/form-data">
-        <button class="upload-btn">Upload File
-            <input type="file" name="gpx_file" required>
-        </button>
-        <!-- <button class="submit-btn">Submit -->
-        <br>
-        <br>
-        <input class="submit-btn" type="submit" name="Submit" value="Submit">
-        <!-- </button> -->
-    </form>
+        <h2>Upload GPX file here.</h2>
+        <div class="container">
+            <form method="POST" action="" enctype="multipart/form-data">
+                <label class="upload-btn">
+                    <input type="file" name="gpx_file" required>
+                    Upload File
+                </label>
+                <input class="submit-btn" type="submit" name="Submit" value="Submit">
+            </form>
+        </div>
 
-    <output></output>
+        <table>
+            <thead>
+            <tr>
+                <th> Instruction:  </th>
+            </tr>
+            </thead>
+            
+            <tbody>
+            {% for item in instructions %}
+            <tr>
+            <td>{{item}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    <output> <!-- Comment out this if any problems arrise with the tbale-->
+    </output>
+    
     <script src="../static/main.js"></script>
-    <table>
-        <thead>
-          <tr>
-            <th> Instruction:  </th>
-          </tr>
-        </thead>
-        
-        <tbody>
-        {% for item in instructions %}
-        <tr>
-          <td>{{item}}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
 </body>
 
 </html>

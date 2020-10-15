@@ -115,8 +115,8 @@ a.nav-link{
 
 /*properties for the github icon when hovered over, make color transition*/
 .fa-github:hover, .fa-github:focus{
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    /* -webkit-background-clip: text;  */ /*already have it above so could be removed*/
+    /* -webkit-text-fill-color: transparent; */
     background-position: 0 100%;
 }
 
@@ -187,6 +187,62 @@ input:checked +.slider{
     font-size: 50px;    
 }
 
+.container{
+    padding: 0.7rem 3rem;
+    width: 100%;
+
+}
+form{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /* justify-content: space-evenly; */
+    font-family: 'Saira', sans-serif;
+    font-size: 16px;
+
+}
+
+
+
+
+.submit-btn {
+    cursor: pointer;
+    font-family: 'Saira', sans-serif;
+    padding: 0.7rem 3rem;
+    font-size: 16px;
+    /* display: inline-block; */
+    display: flex;
+    background-color: var(--button-color);
+    border-radius: 1rem;
+    border: none;
+    color:var(--button-color-text);
+
+
+}
+.submit-btn:hover, .submit-btn:focus {
+    background-color: var(--button-color-hover);
+}
+
+
+
+
+.upload-btn {
+    cursor: pointer;
+    padding: 0.7rem 3rem;
+    display: inline-block;
+    background-color: var(--button-color);
+    border-radius: 1rem;
+    border: none;
+    color:var(--button-color-text);
+
+}
+.upload-btn:hover, .upload-btn:focus {
+    background-color: var(--button-color-hover);
+}
+label.upload-btn input[type=file]{
+    top: -100rem;
+    position: absolute;
+}
 
 
 /* #upload {
@@ -208,26 +264,6 @@ input:checked +.slider{
 
     
 } */
-
-
-.submit-btn {
-    cursor: pointer;
-    font-family: 'Saira', sans-serif;
-    padding: 0.7rem 3rem;
-    position: absolute;
-    overflow: hidden;
-    /* display: inline-block; */
-    display: flex;
-    background-color: var(--button-color);
-    border-radius: 1rem;
-    border: none;
-    color:var(--button-color-text);
-    /* border-collapse: collapse; */
-
-}
-.submit-btn:hover, .submit-btn:focus {
-    background-color: var(--button-color-hover);
-}
 /*Mobile view*/
 @media only screen and (max-width:800px){
 
@@ -265,19 +301,22 @@ input:checked +.slider{
         background-color: rgb(15, 15, 15);
         pointer-events: none;
         flex-direction: column;
-        transition:all 700ms cubic-bezier(1,0,0,1);
+        transition: all 700ms cubic-bezier(0, 1, 1, 1);
         align-items: center;
 
     }
 
     .nav-list.open{
         top: 0;
-        transition:all 700ms cubic-bezier(1,0,0,1);
+        transition: all 700ms cubic-bezier(0, 1, 1, 1);
         pointer-events: all;
-        font-size: 2rem;
+        /* font-size: 2rem; */
     }
 
-
+    .nav-link:hover{
+        border-bottom: .1em solid rgb(194, 183, 183);
+        transition: all 500ms cubic-bezier(0, 1, 1, 1);
+    }
     /* .top-nav{
         transition:all 700ms cubic-bezier(1,0,0,1);
     }
