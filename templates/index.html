@@ -76,8 +76,19 @@
                 <input class="submit-btn" type="submit" name="Submit" value="Submit">
             </form>
         </div>
-
-        <table>
+        
+        
+        <br>
+        <div style="height:360px;width:360px;border:1px solid #454647;font:16px/26px;overflow:auto;">
+            {% for item in instructions %}
+            <div>
+            {{item}}
+            </div>
+            {% endfor %}
+        </div>
+        
+        
+        <!-- <table>
             <thead>
             <tr>
                 <th> Instruction:  </th>
@@ -91,7 +102,7 @@
             </tr>
             {% endfor %}
             </tbody>
-        </table>
+        </table> -->
     <output> <!-- Comment out this if any problems arrise with the tbale-->
     </output>
     
