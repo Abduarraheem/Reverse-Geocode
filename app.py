@@ -44,7 +44,7 @@ def index():
             #instructions = [cue['Manuever'] for cue in cuesheet['cuesheet']]
             instructions = []
             for cue in cuesheet['cuesheet']:
-                instructions.append(cue['Manuever'])
+                instructions.append(cue['maneuver'])
                 # TODO: change so that it appends tuples where the first element is the manuever while the second is the distance (m)
                 # TODO: then add the logic so anything above 1000 m is shown as km and anything below is in m
 
