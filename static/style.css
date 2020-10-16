@@ -321,6 +321,11 @@ label.btn input[type=file]{
     font-size: 50px;
     text-align: center;
 }
+.about-text {
+    text-align: center;
+    padding-left: 50px;
+    padding-right: 50px;
+}
 .contact-list{
     display: flex;
     flex-direction: column;
