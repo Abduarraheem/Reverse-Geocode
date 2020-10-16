@@ -10,10 +10,58 @@ import gpxpy.gpx
 import gpxpy.geo as mod_geo
 import json
 import pprint
+import copy
 # import xml.etree.ElementTree as ET
 
 
  # pk.eyJ1IjoianVuZWJ1Z2d5IiwiYSI6ImNrY2YyMnE1eDBidmkyemsyOWZjbzU0Z24ifQ.mCT9XQLM_LyYO25qTN7xUQ 
+
+
+# before calling this wed want to get the coords from the mapbox polyline
+# and the instruction per polyline segment
+def checkdiff(routecoords: list[tuples], mapboxcoords : list[tuples],resolution=100,depth=0):
+    """ routecoords: unsimplified coordinate list, mapbox coords: coordinates derrived from the mapbox polyline """  
+    # if a segment of the mapbox route diverges from the normal route, call mapbox api again on
+  
+    # version of the divergent segment with less smplification
+    # if divergence still exists, call recursively with less simplification 
+    # untill there is no more divergence 
+    divergence = false
+    diverge_at = 0
+    diverged_coords = []
+    #iterate through coordinates 
+    for item in range(len(coords)):
+        # get the difference between the coordinates
+        # this will be UTM (Easting,Norting)
+        diff = abs(routecoords[i] - mapboxcoords[i])
+        #when the diff is greater than our tolerance 
+        if diff > tolerance:
+            # if this is the first coord in a segment, 
+            # create a new entry in the dict at the index of where we are at in our main route
+            # this is used to 
+            if not divergence:
+                divergence = True
+                diverge_at = i
+                diverged_coords = []
+
+            diverged_coords.append(routecoords[i])
+
+        elif divergence:
+            divergence = False
+            resolution -= 20
+            # if we have just finished a divergent segment, call mapbox api on it with less simplification
+            # build gpx object from routecoords list and simplify before passing to mapbox
+            # (idk actually what the function is) 
+            segment = gpx.build(diverged_coords)
+            segment.simplify(resolution)
+            newmapbox = get_polyline_coords(callMapBox(segment))
+            checkdiff(routecoodrds[diverge_at:i],newmapbox,resolution,depth+1)
+
+        else:
+            print(f"Diffs Solved between {diverge_at} and {diverge_at + len(diverged_coords)} at depth {depth}")
+
+        # accumulate lsit of turns?>?? 
+
 def callMapBox(coords : list):
     """
     Takes a gpx file, opens it, simplifies, gets coords, calls mapbox, 
@@ -40,49 +88,24 @@ def callMapBox(coords : list):
         present que sheet to user 
 
     """
-   
-# for elem in tree.findall("{http://www.topografix.com/GPX/1/1}wpt"):
-#     print elem.attrib['lon'], elem.attrib['lat']
-
-#     pp = pprint.PrettyPrinter(indent=4)
-
-#     gpx_file = open(sys.argv[1], 'r')
-#     mygpx = gpxpy.parse(gpx_file)
-    
-#     mygpx.simplify(300)
-#     data_dict = xmltodict.parse(mygpx.to_xml()) 
-
-#     tree = ET.parse(mygpx.to_xml())
-
-#     result = json.dumps(data_dict)
-#     pp.pprint(result)
-
     print("COORDS ARE ")
-
-    print(coords)
-
+    # print(coords)
     coordstring = ""
     for item in coords: 
         coordstring += f"{item[0]},{item[1]}"
         if item is not coords[-1]:
             coordstring += ";"
-    print(coordstring)
-
-        #73.99090404350912%2C40.727064885724246%3B-73.98744586616424%2C40.733505271200954
-
+    # print(coordstring)
     payload = {"geometries" : "geojson","steps": "true",
-                "access_token" : "pk.eyJ1IjoianVuZWJ1Z2d5IiwiYSI6ImNrY2YyMnE1eDBidmkyemsyOWZjbzU0Z24ifQ.mCT9XQLM_LyYO25qTN7xUQ" }
+                "access_token" : "pk.eyJ1IjoianVuZWJ1Z2d5IiwiYSI6ImNrY2YyMnE1eDBidmkyemsyOWZjbzU0Z24ifQ.mCT9XQLM_LyYO25qTN7xUQ",
+                "overview" : "full"}
     
     # &geometries=geojson&steps=true&access_token=YOUR_MAPBOX_ACCESS_TOKEN
-    
     r = requests.get(f"https://api.mapbox.com/directions/v5/mapbox/cycling/{coordstring}", params=payload)
     # print(r.url)
     # print(r.text)
-  
     return json.loads(r.text)
-
     #  https://api.mapbox.com/directions/v5/cycling/{coordinates} 
-
 
 def giveCueSheet(mygpx=None):
     """
@@ -96,7 +119,6 @@ def giveCueSheet(mygpx=None):
             'distance' : DISTANCE (meters?) 
         }]
     """
-
     # TODO need to change it so that we get the file from the website
     if mygpx is None:
         gpx_file = open(sys.argv[1], 'r')
@@ -104,16 +126,18 @@ def giveCueSheet(mygpx=None):
     
 
     print(f"{len(mygpx.tracks[0].segments[0].points) } Before Simplification!")
-    mygpx.simplify(100)
+    mygpx_simplified = copy.deepcopy(mygpx)
+    mygpx_simplified.simplify(100)
 
     print(f"{len(mygpx.tracks[0].segments[0].points) } after simplification!")
     # coordlists = []    
-    
     #break the track into 25 point pieces
     #each 25 coord list is stored in coordlists
     # https://stackoverflow.com/questions/312443/how-do-you-split-a-list-into-evenly-sized-chunks
+    mygpx.simplify(0.7)
     allpoints = [(pt.longitude, pt.latitude) for pt in mygpx.tracks[0].segments[0].points]
-    coordlists = [allpoints[i:i + 25] for i in range(0, len(allpoints), 25)]
+    points_simplified = [(pt.longitude, pt.latitude) for pt in mygpx_simplified.tracks[0].segments[0].points]
+    coordlists = [points_simplified[i:i + 25] for i in range(0, len(points_simplified), 25)]
     # for track in mygpx.tracks:
     #     for segment in track.segments:
     #         i = 0
@@ -139,18 +163,36 @@ def giveCueSheet(mygpx=None):
     #get dict of location and directions for each 25 pt segment
     cuesheet = []
     i = 0
-    for routsegment in coordlists: 
-        j = callMapBox(routsegment)
-        
-        for leg in j["routes"][0]["legs"]:
+    j = 0
+    # object to hold mapbox returned line geometry in ArcGIS GeoJSON format
+    # used by populating coordinates field and then written out to a file 
+    # geom = { "type" : "FeatureCollection", 'features' : []} 
+    linegeom = [] 
+    for routsegment in coordlists:
+        js = callMapBox(routsegment)
+        # pprint.pprint(js)
+        # feature = { "type": "Feature", "geometry" :{ "type" : "LineString", "coordinates" : js["routes"][0]["geometry"]['coordinates']},"properties" : {}}
+        mbcoords = js["routes"][0]["geometry"]['coordinates']
+        for item in mbcoords:
+            linegeom.append(item)
+
+
+    print(f"{len(allpoints)} ORIGINAL POINTS, {len(linegeom)}LINESTRING POINTS")
+    checkdiff(allpoints,linegeom)
+        for leg in js["routes"][0]["legs"]:
             for step in leg['steps']:
 
                 if step["maneuver"]["type"] == "turn":
-                    cuesheet.append({"number" : i, "Manuver" : step["maneuver"]["instruction"], 
+                    cuesheet.append({"number" : j, "Manuver" : step["maneuver"]["instruction"], 
                                     "coordinate" :step["maneuver"]["location"], 'distance' : step["distance"]})
-                    i+=1
+                    j+=1
     cuej = {"cuesheet" : cuesheet}
     pprint.pprint(cuej)
+    pprint.pprint(geom)
+
+    with open("linecoordsout.geojson",'w') as geomout:
+        json.dump(geom,geomout)
+
     return cuej
 
     # {"cuesheet" : [{number : 0, manuver : "instruction goes here", "coordinate": [lat,long]}]}

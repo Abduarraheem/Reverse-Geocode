@@ -2,8 +2,10 @@
 .pytest_cache/
 __pycache__/
 venv/
-# juno's env 
+# juno things
 env/
+*.geojson
+*.json
 # -- 
 project_env/
 output.txt
