@@ -43,3 +43,18 @@ navBtn.addEventListener('click',()=>{
     navBar.classList.toggle("open");
     navList.classList.toggle("open");
 });
+
+
+const originalBtn = document.getElementById("originalBtn");
+const fileName = document.getElementById("file-name");
+
+
+originalBtn.addEventListener('change', ()=>{
+    if(originalBtn.value){
+        fileName.innerHTML = originalBtn.files[0].name;
+    }
+    else{
+        fileName.innerHTML = "No file chosen";
+
+    }
+});

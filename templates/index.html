@@ -57,54 +57,83 @@
                 <span class="slider"></span>
             </label>
         <!-- </li> -->
-        <!-- <section>
-            <p>About</p>
-        </section> -->
     </nav>
 
 
-    <h1 class="title">Reverse Geocoding Base</h1>
+    <h1 class="title" id="Home">Reverse Geocoding Base</h1>
     
 
-        <div class="container">
+        <div class="btn-container">
             <form method="POST" action="" enctype="multipart/form-data">
-                <label class="upload-btn">
-                    <input type="file" name="gpx_file" required>
+                <label class="btn" id="upload-label">
+                    <input type="file" name="gpx_file" id="originalBtn" required>
                     Upload GPX File
+                    <span id="file-name">No file chosen</span>
                 </label>
-                <input class="submit-btn" type="submit" name="Submit" value="Submit">
+                <input class="btn" type="submit" name="Submit" value="Submit">
             </form>
         </div>
         
-        
-        <br>
-        <div style="height:360px;width:360px;border:1px solid #454647;font:16px/26px;overflow:auto;">
-            {% for item in instructions %}
-            <div>
-            {{item}}
+
+        <div class="output-box">
+            <div class="wrapper">
+                {% for item in instructions %}
+                <div>
+                {{item}}
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
-        
-        
-        <!-- <table>
-            <thead>
-            <tr>
-                <th> Instruction:  </th>
-            </tr>
-            </thead>
-            
-            <tbody>
-            {% for item in instructions %}
-            <tr>
-            <td>{{item}}</td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table> -->
-    <output> <!-- Comment out this if any problems arrise with the tbale-->
-    </output>
-    
+        <input class="btn" type="Submit" name="Download" value="Download">
+
+        <section  id="About">
+            <h1 class="header-section">About</h1>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur deleniti fugiat inventore quasi aperiam perspiciatis architecto, ab aspernatur cupiditate officiis rem debitis accusantium obcaecati corporis tempora accusamus labore at ipsum.
+        </section>
+
+        <section  id="Contact">
+            <h1 class="header-section">Contact</h1>
+                <ul class = "contact-list">
+                    <li class="contact-info">
+                        Juno Mayer: 
+                        <a href="https://github.com/Saybrr" class="contact-icon" target="_blank">
+                            <i class="fa fa-github" aria-hidden="true"></i>
+                        </a>
+
+                        <a href="https://www.linkedin.com/in/juno-mayer-b50a441a2/" class="contact-icon" target="_blank">
+                            <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+                        </a>
+                        <br>
+                        <a class="email-link" href="mailto:gjvmayer@gmail.com"> gjvmayer@gmail.com</a>
+                    </li>
+
+                    <li class="contact-info">
+                        Alex Marozick: 
+
+                        <a href="https://github.com/alexmarozick" class="contact-icon" target="_blank">
+                            <i class="fa fa-github" aria-hidden="true"></i>
+                        </a>
+
+                        <a href="https://www.linkedin.com/in/alex-marozick-290b85195/" class="contact-icon" target="_blank">
+                            <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+                        </a>
+
+                        <br>
+                        <a class="email-link" href="mailto:alexmarozick@gmail.com">alexmarozick@gmail.com</a>
+                    </li>
+
+                    <li class="contact-info">
+                        Abduarraheem Elfandi:  
+
+                        <a href="https://github.com/Abduarraheem" class="contact-icon" target="_blank">
+                            <i class="fa fa-github" aria-hidden="true"></i>
+                        </a>
+                        <br>
+                        <a class="email-link" href="mailto:elfandi.a23@gmail.com">elfandi.a23@gmail.com</a>
+                    </li>
+                </ul>
+        </section>
+      
     <script src="../static/main.js"></script>
 </body>
 
