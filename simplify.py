@@ -54,7 +54,7 @@ def callMapBox(coords : list):
     
     # &geometries=geojson&steps=true&access_token=YOUR_MAPBOX_ACCESS_TOKEN
     
-    r = requests.get(f"https://api.mapbox.com/directions/v5/mapbox/cycling/{coordstring}", params=payload)
+    r = requests.get(f"https://api.mapbox.com/matching/v5/mapbox/cycling/{coordstring}", params=payload)
     # print(r.url)
     # print(r.text)
   
@@ -146,7 +146,7 @@ def giveCueSheet(mygpx=None,doplot=False):
     
     print(f"{len(mygpx.tracks[0].segments[0].points) } Before Simplification!")
     mygpx_simplified = copy.deepcopy(mygpx)
-    mygpx_simplified.simplify(50) # 100M TOLERANCE 
+    mygpx_simplified.simplify(1) # 100M TOLERANCE 
 
     print(f"{len(mygpx_simplified.tracks[0].segments[0].points) } after simplification!")
     # coordlists = []    
@@ -167,7 +167,7 @@ def giveCueSheet(mygpx=None,doplot=False):
     points_simplified = [(pt.longitude, pt.latitude) for pt in mygpx_simplified.tracks[0].segments[0].points]
 
     # [[(lon, lat) * 25]] broken up into 25 coord lists for API call 
-    coordlists = [points_simplified[i:i + 25] for i in range(0, len(points_simplified), 25)]
+    coordlists = [points_simplified[i:i + 100] for i in range(0, len(points_simplified), 100)]
     # print(f"There were {i} many points in the gpx file after simplification")
     print(f"Coords were split into {len(coordlists)} API calls ")
     # output = open("out.gpx", "w")ex
@@ -184,29 +184,28 @@ def giveCueSheet(mygpx=None,doplot=False):
         
         j = callMapBox(routesegment)
         # pprint.pprint(j)
-        
-        for leg in j["routes"][0]["legs"]:
+        for leg in j["matchings"][0]["legs"]:
             for step in leg['steps']:
 
+
                 if step["maneuver"]["type"] == "turn":
+                    # print(step["maneuver"]["instruction"])
                     cuesheet['cuesheet'].append({"number" : num_turn, "maneuver" : step["maneuver"]["instruction"], 
                                     "coordinate" :step["maneuver"]["location"], 'distance' : step["distance"]})
                     num_turn+=1
 
         # get the line geometry returned by mapbox for the segment of the route we passed in 
-        mbcoords = j["routes"][0]["geometry"]['coordinates']
+        mbcoords = j["matchings"][0]["geometry"]['coordinates']
         for item in mbcoords:
             linegeom.append(item)
             lineutm.append(utm.from_latlon(item[1],item[0]))
         
-
-
-
     # turnlocs = shapely.geometry.MultiPoint([cue['coordinate'] for cue in cuesheet['cuesheet']])
     difference_shapely, route_shapely ,mapbox_shapely, mapbox_shapely_buff = diffCheck(allutm,lineutm,buffer_distance)
+
+
     #get the coords of the parts we need to redo, might be or more lines 
     # fc = {"type": "FeatureCollection", "features": []}
-    print(type(difference_shapely))
     #only for testing in matplotlib 
     if doplot:
         fig, ax = plt.subplots()
@@ -243,6 +242,17 @@ def giveCueSheet(mygpx=None,doplot=False):
         #     ax.plot(pt.x,pt.y, color='green',markers='.')
 
         plt.show()
+
+
+    # for steps in mapboxreturn -- merged json
+        # if difference is not in coords of step, 
+            #append turn instructions for this step to cuesheet 
+        # else 
+            # we know this is bad turn,
+            # break, call mapbox again on difference segment
+            # append turns from new mapbox return to cuesheet     
+        # if difference is in coords of in step (mbcoords) 
+                # break 
 
     #TODO: JUNO - look into merging jsoins returned by mapbox difference checking 
 
