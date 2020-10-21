@@ -191,8 +191,8 @@ def giveCueSheet(mygpx=None,doplot=False):
             for step in leg['steps']:
                 dist_between_turns += step['distance']
                 if step["maneuver"]["type"] == "turn":
-                    print(f"FOUND A TURN AT LEG {leg} STEP{steps}, {step['distance']} from previous step")
-                    print(f"{dist_between_turns} DIST BETWEEN TURNS")
+                    # print(f"FOUND A TURN AT LEG {leg} STEP{steps}, {step['distance']} from previous step")
+                    # print(f"{dist_between_turns} DIST BETWEEN TURNS")
                     # print(step["maneuver"]["instruction"])
                     cuesheet['cuesheet'].append({"number" : num_turn, "maneuver" : step["maneuver"]["instruction"], 
                                     "coordinate" :step["maneuver"]["location"], 'distance' : dist_between_turns})
