@@ -346,6 +346,31 @@ label.btn input[type=file]{
     border-bottom: .1em solid rgb(54, 127, 238);
     transition: all 100ms cubic-bezier(0, 1, 1, 1);
 }
+/* footer{
+    display: block;
+}
+.site-footer {
+    border-top: 1px solid var(--bg-color);;
+    background-color:var(--font-color);
+    padding: 30px 0;
+
+}
+.footer-link{
+    color: rgb(26, 115, 248);
+}
+.footer-link:hover{
+    border-bottom: .1em solid rgb(54, 127, 238);
+    transition: all 100ms cubic-bezier(0, 1, 1, 1);
+}
+
+.footer-wrapper{
+    margin-right: auto;
+    margin-left: auto;
+    content: "";
+    display: table;
+    clear: both;
+
+} */
 /*Mobile view*/
 @media only screen and (max-width:800px){
 
