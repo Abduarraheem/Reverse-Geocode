@@ -45,10 +45,6 @@ def getStName(lat: float, lng: float):
     '''
     Function that gets the street name given the latitude and longitude.
     '''
-    configur = ConfigParser()
-    configur.read('config.ini') 
-    api_key = configur.get('GeoServiceAPI','GeoServiceKey')
-
     payload  = {"apiKey" : api_key, "version" : "4.10", 
                 "lat" : lat, "lon" : lng, "format" : "JSON"}
 
