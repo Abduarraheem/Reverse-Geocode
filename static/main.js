@@ -44,6 +44,22 @@ navBtn.addEventListener('click',()=>{
     navList.classList.toggle("open");
 });
 
+// get an array of all items in the nav-link class
+const navLink = document.querySelectorAll('.nav-link');
+// function that will toggle the open 
+// class if the nav-link is clicked when on mobile mode
+function closeNavList() {
+    if(screen.width <= 801){
+        navBtn.classList.toggle("open");
+        navBar.classList.toggle("open");
+        navList.classList.toggle("open")
+    }
+}
+// loop that goes through all the .nav-link and sees if it gets clicked.
+for (var i = 0 ; i < navLink.length; i++) {
+    navLink[i].addEventListener('click' , closeNavList, false) ; 
+ }
+
 
 const originalBtn = document.getElementById("originalBtn");
 const fileName = document.getElementById("file-name");
