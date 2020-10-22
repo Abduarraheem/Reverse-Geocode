@@ -57,7 +57,13 @@ def callMapBox(coords : list):
     r = requests.get(f"https://api.mapbox.com/matching/v5/mapbox/cycling/{coordstring}", params=payload)
     # print(r.url)
     # print(r.text)
-  
+    text = r.text
+
+    if 'message' in text:
+        print(text)
+        print("NO API KEY DETECTED")
+        return None
+    
     return json.loads(r.text)
 
     #  https://api.mapbox.com/directions/v5/cycling/{coordinates} 
@@ -181,6 +187,9 @@ def giveCueSheet(mygpx=None,doplot=False):
     num_turn = 0
     linegeom = []
     lineutm = []
+    if not callMapBox(coordlists[0]):
+        return None
+
     for routesegment in coordlists: 
         
         j = callMapBox(routesegment)
