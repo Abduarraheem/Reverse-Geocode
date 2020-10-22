@@ -48,8 +48,9 @@ navBtn.addEventListener('click',()=>{
 const navLink = document.querySelectorAll('.nav-link');
 // function that will toggle the open 
 // class if the nav-link is clicked when on mobile mode
+const mediaToggle = window.matchMedia("(max-width: 800px)");
 function closeNavList() {
-    if(screen.width <= 801){
+    if(mediaToggle.matches){
         navBtn.classList.toggle("open");
         navBar.classList.toggle("open");
         navList.classList.toggle("open")
