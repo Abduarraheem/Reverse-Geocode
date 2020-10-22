@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect, abort
+from flask import Flask, render_template, url_for, request, redirect, abort, flash
 import os
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException, default_exceptions, Aborter
@@ -39,7 +39,8 @@ def index():
             cuesheet = locationParse.main('TestFiles/' + uploaded_file.filename) # run the parsing which will generate an output.
             #cuesheet contains the JSON object and instructions is a list of the values for instructions within the JSON object
             pprint.pprint(cuesheet)
-            
+            if cuesheet is None:
+                return flash("NO API KEY DINGUS")
 
             #instructions = [cue['Manuever'] for cue in cuesheet['cuesheet']]
             instructions = []

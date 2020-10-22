@@ -6,8 +6,10 @@ venv/
 env/
 *.geojson
 *.json
+simplify_copy.py
+simplify_junotest.py
 # -- 
 project_env/
+ProtoTypes/
 output.txt
 config.ini
-config.py
