@@ -20,13 +20,15 @@ app = Flask(__name__)
 app.config['UPLOAD_PATH'] = 'TestFiles'
 app.config['UPLOAD_EXTENSIONS'] = ['.gpx', '.xml'] # can add other file types in the list
 
-secret_key = os.urandom(24)
-app.secret_key = secret_key
+
 mapbox_key = config.get('mapbox_key')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     session['coords_list'] = [] # set the coords list to be empty at first
+    secret_key = os.urandom(24)
+    app.secret_key = secret_key
+    
     if request.method == 'POST':
         uploaded_file = request.files["gpx_file"] # the file name is listed as gpx_file in index.html
         fileName = secure_filename(uploaded_file.filename)
