@@ -1,3 +1,8 @@
+'''
+Juno Mayer, Alex Marozick and Abduarraheem Elfandi
+
+'''
+
 from flask import Flask, render_template, url_for, request, redirect, abort, flash, jsonify, session
 import os
 from werkzeug.utils import secure_filename

@@ -1,3 +1,5 @@
+/* Juno Mayer, Alex Marozick and Abduarraheem Elfandi*/
+
 // variable which checks if the switch has been checked 
 const pressSwitch = document.querySelector('.switch input[type="checkbox"]');
 
