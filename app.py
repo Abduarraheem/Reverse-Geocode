@@ -69,7 +69,7 @@ def index():
 @app.route('/give_coords')
 def give_coords(): 
     #also give tehe mapbox key 
-    if 'coords_list' in session:
+    if sesstion['coords_list'] != []:
         coords_list = session['coords_list']
         print(coords_list)
         zoom_value = 7
