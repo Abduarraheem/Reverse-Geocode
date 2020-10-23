@@ -115,7 +115,7 @@
                         $.getJSON(COORDS_URL, {key: key, coords : coords},
                             function(data){
                                     //put mapbox here
-                                if (coords != []){
+                                if (data.coords != []){
                                     map.addSource('route', {
                                         'type': 'geojson',
                                         'data': {
