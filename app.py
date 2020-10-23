@@ -8,6 +8,7 @@ from werkzeug.exceptions import HTTPException, default_exceptions, Aborter
 import pprint
 import locationParse
 import requests
+import json
 
 
 class FileTypeException(HTTPException):   # this error is thrown when the file type is incorrect
