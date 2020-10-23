@@ -23,10 +23,10 @@ secret_key = os.urandom(24)
 app.secret_key = secret_key
 
 mapbox_key = config.get('mapbox_key')
-
+session['coords_list'] = [] # set the coords list to be empty at first
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    session['coords_list'] = [] # set the coords list to be empty at first
+
 
     
     if request.method == 'POST':
