@@ -110,7 +110,7 @@
                         zoom: 7 // starting zoom
                     });
                     map.on('load', function () {
-                        $.getJSON(COORDS_URL, {key: key, coords : coords},
+                        $.getJSON(COORDS_URL, {key: key, coords : coords, zoom:zoom},
                             function(data){
                                     //put mapbox here
                                     console.log(data.coords)
