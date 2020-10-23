@@ -99,11 +99,18 @@
         <div class='map' id='map' style='width: 400px; height: 300px;'></div>
         <script type="text/javascript">
         var SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        var apikey;
+        $(document).ready(function(){
+            $.getJSON(SCRIPT_ROOT+'/get_key', {apikey:apikey},
+                function(data){
+                    //Do Nothing
+                });
+        });
         var COORDS_URL = SCRIPT_ROOT + "/give_coords";
         var key;
         var coords;
         console.log(COORDS_URL)
-        mapboxgl.accessToken = 'pk.eyJ1IjoiYWxleG1hcm96aWNrIiwiYSI6ImNrZ2p6cmVzczByZXIycm1vd21haG9wdXMifQ.5XrqjaK1YgWw0izJsWxztw';
+        mapboxgl.accessToken = apikey;
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location

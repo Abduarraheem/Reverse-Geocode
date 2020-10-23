@@ -75,6 +75,13 @@ def give_coords():
     return jsonify({'key' : mapbox_key, 'coords': coords_list})
 
 
+@app.route('/get_key')
+def get_key(): 
+    #also give tehe mapbox key 
+    print(mapbox_key)
+    return jsonify({'apikey' : mapbox_key})
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
