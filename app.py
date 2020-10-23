@@ -71,6 +71,7 @@ def give_coords():
     #also give tehe mapbox key 
     if 'coords_list' in session:
         coords_list = session['coords_list']
+        print(coords_list)
         zoom_value = 7
     else:
         coords_list = []

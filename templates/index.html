@@ -113,7 +113,7 @@
                         $.getJSON(COORDS_URL, {key: key, coords : coords},
                             function(data){
                                     //put mapbox here
-                                if (data.coords != []){
+                                    console.log(data.coords)
                                     map.addSource('route', {
                                         'type': 'geojson',
                                         'data': {
@@ -142,7 +142,6 @@
                                         center: data.coords[0],
                                         essential: true
                                     });
-                                }
                             }
                         );
                     });
