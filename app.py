@@ -57,7 +57,7 @@ def index():
                 coordinates.append(cue['coordinate'])
 
             json_coords = json.dumps(coordinates) # python to JSON object
-        return render_template("index.html", instructions = instructions, cue_coordinates = json_cords)
+        return render_template("index.html", instructions = instructions, cue_coordinates = json_coords)
         #return redirect(url_for("index"))
 
     return render_template("index.html"), 200
