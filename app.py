@@ -1,10 +1,7 @@
-from flask import Flask, render_template, url_for, request, redirect, abort, flash, jsonify
+from flask import Flask, render_template, url_for, request, redirect, abort, flash, jsonify, session
 import os
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException, default_exceptions, Aborter
-#from flask_wtf import FlaskForm
-#from flask_wtf.file import FileField
-#from wtforms import SubmitField
 import pprint
 import locationParse
 import requests
@@ -23,11 +20,13 @@ app = Flask(__name__)
 app.config['UPLOAD_PATH'] = 'TestFiles'
 app.config['UPLOAD_EXTENSIONS'] = ['.gpx', '.xml'] # can add other file types in the list
 
-coords_list = []
+secret_key = os.urandom(24)
+app.secret_key = secret_key
 mapbox_key = config.get('mapbox_key')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    session['coords_list'] = [] # set the coords list to be empty at first
     if request.method == 'POST':
         uploaded_file = request.files["gpx_file"] # the file name is listed as gpx_file in index.html
         fileName = secure_filename(uploaded_file.filename)
@@ -46,9 +45,8 @@ def index():
             #cuesheet contains the JSON object and instructions is a list of the values for instructions within the JSON object
             # pprint.pprint(cuesheet)
             if cuesheet is None:
-                return flash("NO API KEY DINGUS")
+                return flash("NO API KEY GIVEN")
 
-            #instructions = [cue['Manuever'] for cue in cuesheet['cuesheet']]
             instructions = []
             coordinates = []
 
@@ -60,26 +58,20 @@ def index():
                     unit = "m"
                 instructions.append((cue['maneuver'], cue['distance'], unit))
                 coordinates.append(cue['coordinate'])
-            print(coords_list)
             coords_list = coordinates
-            # json_coords = json.dumps(coordinates) # python to JSON object
+            session['coords_list'] = coords_list # save the coordinates 
         return render_template("index.html", instructions = instructions)
-        #return redirect(url_for("index"))
 
     return render_template("index.html"), 200
 
 @app.route('/give_coords')
 def give_coords(): 
     #also give tehe mapbox key 
-    print(coords_list)
-    return jsonify({'key' : mapbox_key, 'coords': coords_list})
-
-
-@app.route('/get_key')
-def get_key(): 
-    #also give tehe mapbox key 
-    print(mapbox_key)
-    return jsonify({'apikey' : mapbox_key})
+    coords_list = session['coords_list']
+    zoom_value = 1
+    if coords_list != []:
+        zoom_value = 7
+    return jsonify({'key' : mapbox_key, 'coords': coords_list, 'zoom' : zoom_value})
 
 
 @app.errorhandler(404)

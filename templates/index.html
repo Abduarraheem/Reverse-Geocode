@@ -10,9 +10,6 @@
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;500&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="../static/style.css">
-        <!-- <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='/style.css') }}"> -->
-        <!-- <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='/font-awesome.min.css') }}"> -->
-        <!-- <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='/font-awesome.css') }}"> -->
         
         <!-- For the mapbox map -->
         <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
@@ -52,9 +49,6 @@
                     <a href="https://github.com/Abduarraheem/Reverse-Geocode" class="icon-link" target="_blank">
                         <i class="fa fa-github" aria-hidden="true"></i>
                     </a>
-                    <!-- <a href="https://www.linkedin.com/" class="icon-link" target="_blank">
-                        <i class="fa fa-linkedin-square" aria-hidden="true"></i>
-                    </a> -->
                 </div>
             </li>
 
@@ -92,89 +86,64 @@
                 {% endfor %}
             </div>
         </div>
-        <!-- <input class="btn" type="Submit" name="Download" value="Download"> -->
 
         <!-- MAPBOX  -->
         <br> <br>
-        <div class='map' id='map' style='width: 400px; height: 300px;'></div>
+        <div class='map' id='map' style='width: 600px; height: 400px;'></div>
         <script type="text/javascript">
-        var SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-<<<<<<< HEAD
-        var apikey;
+            var SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+            var COORDS_URL = SCRIPT_ROOT + "/give_coords";
+            var key;
+            var coords;
+            var zoom;
+
+
+        
         $(document).ready(function(){
-            $.getJSON(SCRIPT_ROOT+'/get_key', {apikey:apikey},
+                $.getJSON(COORDS_URL, {key: key, coords : coords, zoom: zoom}, 
                 function(data){
-                    //Do Nothing
-                });
-        });
-=======
->>>>>>> parent of 227c960... Fixed a bug, made the lines display on the map and cleaned up a few things.
-        var COORDS_URL = SCRIPT_ROOT + "/give_coords";
-        var key;
-        var coords;
-        console.log(COORDS_URL)
-<<<<<<< HEAD
-        mapboxgl.accessToken = apikey;
-=======
-        mapboxgl.accessToken = 'pk.eyJ1IjoiYWxleG1hcm96aWNrIiwiYSI6ImNrZ2p6cmVzczByZXIycm1vd21haG9wdXMifQ.5XrqjaK1YgWw0izJsWxztw';
->>>>>>> parent of 227c960... Fixed a bug, made the lines display on the map and cleaned up a few things.
-        var map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-            center:  [-123.153919, 44.768311], // starting position [lng, lat]
-            zoom: 9 // starting zoom
-        });
-        map.on('load', function () {
-            $.getJSON(COORDS_URL, {key: key, coords : coords},
-                function(data){
-                    console.log(data)
-                        //put mapbox here 
-                    console.log(data.result.coords)
-                    map.addSource('route', {
-                        'type': 'geojson',
-                        'data': {
-                            'type': 'Feature',
-                            'properties': {},
-                            'geometry': {
-                            'type': 'LineString',
-                            // TODO: get the original coordinates in here
-                            'coordinates': data.result.coords
-<<<<<<< HEAD
-                        }
+                    mapboxgl.accessToken = data.key;
+                    var map = new mapboxgl.Map({
+                        container: 'map',
+                        style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+                        center:  data.coords[0], // starting position [lng, lat]
+                        zoom: data.zoom // starting zoom
                     });
-                    map.addLayer({
-                        'id': 'route',
-                        'type': 'line',
-                        'source': 'route',
-                        'layout': {
-                            'line-join': 'round',
-                            'line-cap': 'round'
-                        },
-                        'paint': {
-                            'line-color': '#888',
-                            'line-width': 8
-=======
->>>>>>> parent of 227c960... Fixed a bug, made the lines display on the map and cleaned up a few things.
-                        }
-                    }
+
+
+                    map.on('load', function () {
+                        $.getJSON(COORDS_URL, {key: key, coords : coords},
+                            function(data){
+                                    //put mapbox here 
+                                map.addSource('route', {
+                                    'type': 'geojson',
+                                    'data': {
+                                        'type': 'Feature',
+                                        'properties': {},
+                                        'geometry': {
+                                        'type': 'LineString',
+                                        'coordinates': data.coords
+                                    }
+                                }
+                            });
+                            map.addLayer({
+                                'id': 'route',
+                                'type': 'line',
+                                'source': 'route',
+                                'layout': {
+                                    'line-join': 'round',
+                                    'line-cap': 'round'
+                                },
+                                'paint': {
+                                    'line-color': '#000080',
+                                    'line-width': 8
+                                }
+                            });
+                        });
+                    });
+                    
                 });
-                map.addLayer({
-                    'id': 'route',
-                    'type': 'line',
-                    'source': 'route',
-                    'layout': {
-                        'line-join': 'round',
-                        'line-cap': 'round'
-                    },
-                    'paint': {
-                        'line-color': '#888',
-                        'line-width': 8
-                    }
-                });
-            });
-        });
-                
-               
+        });   
 
         </script>
          <br> <br>
@@ -184,18 +153,20 @@
         <section  id="About">
             <h1 class="header-section">About</h1>
             <div class="about-text">
-                Hikers, runners, and cyclists often record their activites using a phone, fitness watch, or dedicated GPS device. They may upload data from their devices to a system like Strava, MapMyRun, or RideWithGPS, which typically provide analysis, map display, and optional social media sharing.
-                Existing services like Strava provide a variety of analyses and record keeping, but they typically do not provide a fully automated way to extract turn-by-turn directions from a recorded activity. For hikers and runners and some cyclists who travel off-road, this might be very difficult … there may be no suitable database from which to extract suitable cues. For road cyclists, however, it should be possible to extract turn-by-turn directions (a “cue sheet”) from a recording.
-                That is what our system does. The input will be a gpx or xml file which are records consisting of a sequence of (latitude, longitude) pairs, possibly with other information. The output is be a list of turn-by-turn directions.
-                <br> <br>
+                <p>
+                    Hikers, runners, and cyclists often record their activites using a phone, fitness watch, or dedicated GPS device. They may upload data from their devices to a system like Strava, MapMyRun, or RideWithGPS, which typically provide analysis, map display, and optional social media sharing.
+                    Existing services like Strava provide a variety of analyses and record keeping, but they typically do not provide a fully automated way to extract turn-by-turn directions from a recorded activity. For hikers and runners and some cyclists who travel off-road, this might be very difficult … there may be no suitable database from which to extract suitable cues. For road cyclists, however, it should be possible to extract turn-by-turn directions (a “cue sheet”) from a recording.
+                    That is what our system does. The input will be a gpx or xml file which are records consisting of a sequence of (latitude, longitude) pairs, possibly with other information. The output is be a list of turn-by-turn directions.
+                </p>
                 <h3>Geocoding</h3>
-                <br>
+                <p>
                 Geocoding means translating place names or descriptions into geographic coordinates, usually latitude and longitude. If you have used a web mapping service, you have probably used geocoding to find a destination or place of interest.
-                <br> <br>
+                </p>
+
                 <h3>Reverse Geocoding</h3>
-                <br>
+                <p>
                 Geocoding translates addresses into coordinates. Reverse geocoding, as you might guess, translates coordinates to addresses. This involves some very cool data structures and algorithms called spatial indexes, but you don’t need to understand spatial indexes to use a reverse geocoding service.
-                <br> <br>
+                </p>
                 Cited by Prof. Michal's repo at <a href="https://uo-cis422.github.io/chapters/projects/reverse/reverse.html" class="email-link">https://uo-cis422.github.io/chapters/projects/reverse/reverse.html</a>
             </div>
         
@@ -244,11 +215,6 @@
                 </ul>
         </section>
         <br><br><br><br>
-        <!-- <footer class=site-footer>
-            <div footer-wrapper>
-                <a class="footer-link" href="https://www.mapbox.com/" target="_blank">Mapbox API</a>
-            </div>
-        </footer> -->
     <script src="../static/main.js"></script>
 </body>
 
