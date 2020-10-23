@@ -69,10 +69,11 @@ def index():
 @app.route('/give_coords')
 def give_coords(): 
     #also give tehe mapbox key 
-    coords_list = session['coords_list']
-    zoom_value = 1
-    if coords_list != []:
+    if 'coords_list' in session:
+        coords_list = session['coords_list']
         zoom_value = 7
+    else:
+        zoom_value = 1        
     return jsonify({'key' : mapbox_key, 'coords': coords_list, 'zoom' : zoom_value})
 
 
