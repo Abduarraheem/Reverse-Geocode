@@ -26,6 +26,8 @@ mapbox_key = config.get('mapbox_key')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    session['coords_list'] = [] # set the coords list to be empty at first
+
     
     if request.method == 'POST':
         uploaded_file = request.files["gpx_file"] # the file name is listed as gpx_file in index.html
@@ -61,7 +63,7 @@ def index():
             coords_list = coordinates
             session['coords_list'] = coords_list # save the coordinates 
         return render_template("index.html", instructions = instructions)
-    
+
     return render_template("index.html"), 200
 
 @app.route('/give_coords')
