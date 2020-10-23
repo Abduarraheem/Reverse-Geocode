@@ -106,11 +106,9 @@
                     var map = new mapboxgl.Map({
                         container: 'map',
                         style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-                        center:  data.coords[0], // starting position [lng, lat]
-                        zoom: data.zoom // starting zoom
+                        center: [-123.0,44.0], // starting position [lng, lat]
+                        zoom: 7 // starting zoom
                     });
-
-
                     map.on('load', function () {
                         $.getJSON(COORDS_URL, {key: key, coords : coords},
                             function(data){
@@ -139,6 +137,10 @@
                                             'line-color': '#000080',
                                             'line-width': 8
                                         }
+                                    });
+                                    map.flyTo({
+                                        center: data.coords[0],
+                                        essential: true
                                     });
                                 }
                             }

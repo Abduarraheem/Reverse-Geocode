@@ -78,6 +78,9 @@ def give_coords():
     return jsonify({'key' : mapbox_key, 'coords': coords_list, 'zoom' : zoom_value})
 
 
+
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
