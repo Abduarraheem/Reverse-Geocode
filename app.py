@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect, abort, flash
+from flask import Flask, render_template, url_for, request, redirect, abort, flash, jsonify
 import os
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException, default_exceptions, Aborter
@@ -9,6 +9,7 @@ import pprint
 import locationParse
 import requests
 import json
+import config
 
 
 class FileTypeException(HTTPException):   # this error is thrown when the file type is incorrect
@@ -21,6 +22,9 @@ abort = Aborter()
 app = Flask(__name__)
 app.config['UPLOAD_PATH'] = 'TestFiles'
 app.config['UPLOAD_EXTENSIONS'] = ['.gpx', '.xml'] # can add other file types in the list
+
+coords_list = []
+mapbox_key = config.get('mapbox_key')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -40,7 +44,7 @@ def index():
             #calls main in location parse with the file in the upload path            
             cuesheet = locationParse.main('TestFiles/' + uploaded_file.filename) # run the parsing which will generate an output.
             #cuesheet contains the JSON object and instructions is a list of the values for instructions within the JSON object
-            pprint.pprint(cuesheet)
+            # pprint.pprint(cuesheet)
             if cuesheet is None:
                 return flash("NO API KEY DINGUS")
 
@@ -56,12 +60,19 @@ def index():
                     unit = "m"
                 instructions.append((cue['maneuver'], cue['distance'], unit))
                 coordinates.append(cue['coordinate'])
-
-            json_coords = json.dumps(coordinates) # python to JSON object
-        return render_template("index.html", instructions = instructions, cue_coordinates = json_coords)
+            print(coords_list)
+            coords_list = coordinates
+            # json_coords = json.dumps(coordinates) # python to JSON object
+        return render_template("index.html", instructions = instructions)
         #return redirect(url_for("index"))
 
     return render_template("index.html"), 200
+
+@app.route('/give_coords')
+def give_coords(): 
+    #also give tehe mapbox key 
+    print(coords_list)
+    return jsonify({'key' : mapbox_key, 'coords': coords_list})
 
 
 @app.errorhandler(404)
