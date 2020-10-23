@@ -44,6 +44,8 @@ def index():
 
             #instructions = [cue['Manuever'] for cue in cuesheet['cuesheet']]
             instructions = []
+            coordinates = []
+
             for cue in cuesheet['cuesheet']:
                 if cue['distance'] >= 1000:
                     cue['distance'] = float(cue['distance'])/1000
@@ -51,8 +53,8 @@ def index():
                 else:
                     unit = "m"
                 instructions.append((cue['maneuver'], cue['distance'], unit))
-
-        return render_template("index.html", instructions = instructions )
+                coordinates.append(cue['coordinate'])
+        return render_template("index.html", instructions = instructions, cue_coordinates = coordinates)
         #return redirect(url_for("index"))
 
     return render_template("index.html"), 200
