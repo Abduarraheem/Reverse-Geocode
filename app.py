@@ -2,6 +2,9 @@ from flask import Flask, render_template, url_for, request, redirect, abort, fla
 import os
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import HTTPException, default_exceptions, Aborter
+#from flask_wtf import FlaskForm
+#from flask_wtf.file import FileField
+#from wtforms import SubmitField
 import pprint
 import locationParse
 import requests
@@ -25,7 +28,6 @@ mapbox_key = config.get('mapbox_key')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    global coords_list
     if request.method == 'POST':
         uploaded_file = request.files["gpx_file"] # the file name is listed as gpx_file in index.html
         fileName = secure_filename(uploaded_file.filename)
@@ -46,6 +48,7 @@ def index():
             if cuesheet is None:
                 return flash("NO API KEY DINGUS")
 
+            #instructions = [cue['Manuever'] for cue in cuesheet['cuesheet']]
             instructions = []
             coordinates = []
 
@@ -57,15 +60,18 @@ def index():
                     unit = "m"
                 instructions.append((cue['maneuver'], cue['distance'], unit))
                 coordinates.append(cue['coordinate'])
+            print(coords_list)
             coords_list = coordinates
+            # json_coords = json.dumps(coordinates) # python to JSON object
         return render_template("index.html", instructions = instructions)
+        #return redirect(url_for("index"))
 
     return render_template("index.html"), 200
 
 @app.route('/give_coords')
 def give_coords(): 
     #also give tehe mapbox key 
-    global coords_list
+    print(coords_list)
     return jsonify({'key' : mapbox_key, 'coords': coords_list})
 
 

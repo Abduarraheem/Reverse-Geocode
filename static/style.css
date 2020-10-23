@@ -3,11 +3,13 @@
     --secondary-color: #536390;
     --font-color: #232835;
     --link-font-color: rgb(137, 137, 141);
+    /* --bg-color: rgba(75,207,250,1); */
     --bg-color: #fab883;
     --button-color: rgb(41, 41, 43);
     --button-color: #232835;
     --button-color-hover: #39435c;
     --button-color-text: white;
+    /* --heading-color: #292922; */
 
 }
 
@@ -18,7 +20,6 @@
     scroll-behavior: smooth;
     
 }
-
 [data-mode="dark"] {
     --font-color: #fab883;
     --link-font-color:#e1e1ff;
@@ -37,14 +38,6 @@ body{
     color: var(--font-color);
 }
 
-p {
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    
-}
 
 body::-webkit-scrollbar{
     width: 1rem;
@@ -70,21 +63,28 @@ a{
     height: 3rem; /*Height of the nav bar*/
     background-color: rgb(15, 15, 15);
     overflow: hidden;
+    /* align-items: center; */
     z-index: 2;
+    /* border-top-right-radius: 0.8rem;
+    border-bottom-right-radius: 0.8rem; */
 }
 
 .nav-list{
     list-style: none;
     display: flex;
     height: 100%; /*Use 100% of the height of the nav bar*/
+    /* width: 100%; */
     justify-content: space-evenly; /*Align the flex items at the evenly of the container*/
+    /* align-items: center; */
 }
 
 /*Navbar links properties*/
 .nav-link{    
+    /* font-size: 100%; */
     font-family: 'Saira', sans-serif;
     text-decoration: none;
     filter: grayscale(100%) opacity(5);
+    /* text-decoration-color: white; */
 }
 
 
@@ -96,6 +96,8 @@ a.nav-link{
 
 /*when the link in the nav bar is clicked on*/
 .nav-link:active{
+    /* display: flex;
+    filter: grayscale(0%) opacity(1); */
     color: white;
 }
 
@@ -123,8 +125,8 @@ a.nav-link{
 
 /*properties for the github icon when hovered over, make color transition*/
 .fa-github:hover, .fa-github:focus{
-    -webkit-background-clip: text;  /*already have it above so could be removed*/
-    -webkit-text-fill-color: transparent;
+    /* -webkit-background-clip: text;  */ /*already have it above so could be removed*/
+    /* -webkit-text-fill-color: transparent; */
     background-position: 0 100%;
 }
 
@@ -205,10 +207,36 @@ form{
     display: flex;
     flex-direction: row;
     justify-content: center;
+    /* justify-content: space-evenly; */
     font-family: 'Saira', sans-serif;
     font-size: 16px;
 
 }
+
+
+
+/* 
+.submit-btn {
+
+    cursor: pointer;
+    font-family: 'Saira', sans-serif;
+    padding: 0.7rem 3rem;
+
+
+    display: flex;
+    background-color: var(--button-color);
+    border-radius: 1rem;
+    border: none;
+    color:var(--button-color-text);
+    margin: 0 10px;
+
+
+}
+.submit-btn:hover, .submit-btn:focus {
+    background-color: var(--button-color-hover);
+} */
+
+
 
 
 .btn {
@@ -226,8 +254,11 @@ form{
 .btn:hover, .upload-btn:focus {
     background-color: var(--button-color-hover);
 }
-
+/* .upload-btn:hover, .upload-btn:focus {
+    background-color: var(--button-color-hover);
+} */
 label.btn input[type=file]{
+    /* top: -100rem; */
     position: absolute;
     z-index: -1;
     opacity: 0; /* make transparent */
@@ -244,6 +275,8 @@ label.btn input[type=file]{
     overflow:auto;
     border-radius: 1rem;
     justify-content: center;
+    /* margin: 30px 10px; */
+    
 }
 
 .fa-linkedin-square{
@@ -259,7 +292,28 @@ label.btn input[type=file]{
 }
 .fa-linkedin-square:hover, .fa-linkedin-square:focus{
     background-position: 0 100%;
+
 }
+/* #upload {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+
+} */
+
+/* label.input-label input[type=file]{
+    position:absolute;
+    top: -1000px;
+} */
+
+/* label.input-label +span{
+
+    
+} */
+
 
 .header-section{
     padding-top: 3rem;
@@ -271,9 +325,7 @@ label.btn input[type=file]{
     text-align: center;
     padding-left: 50px;
     padding-right: 50px;
-    display: block;
 }
-
 .contact-list{
     display: flex;
     flex-direction: column;
@@ -290,18 +342,35 @@ label.btn input[type=file]{
     color: rgb(26, 115, 248);
 }
 .email-link:hover{
+    /* text-underline-offset: ; */
+    border-bottom: .1em solid rgb(54, 127, 238);
+    transition: all 100ms cubic-bezier(0, 1, 1, 1);
+}
+/* footer{
+    display: block;
+}
+.site-footer {
+    border-top: 1px solid var(--bg-color);;
+    background-color:var(--font-color);
+    padding: 30px 0;
+
+}
+.footer-link{
+    color: rgb(26, 115, 248);
+}
+.footer-link:hover{
     border-bottom: .1em solid rgb(54, 127, 238);
     transition: all 100ms cubic-bezier(0, 1, 1, 1);
 }
 
+.footer-wrapper{
+    margin-right: auto;
+    margin-left: auto;
+    content: "";
+    display: table;
+    clear: both;
 
-.map{
-    margin: auto;
-    padding: 50px 0;
-    display: block;
-    width: 40em;
-}
-
+} */
 /*Mobile view*/
 @media only screen and (max-width:800px){
 
@@ -313,13 +382,14 @@ label.btn input[type=file]{
         justify-content: space-between; /*Space between each bar*/
         cursor: pointer; /*When the cursor hovers over it will be a pointer*/
         z-index: 1500;
+        /* transition: transform 700ms ease-out; */
         flex-flow: column;
         
         top: 0.5rem;
         left: 0.8rem;
         width: 2.4rem;
         height: 2rem; /* Height of each bar similar as the justify-content*/
-
+        /* margin:0; */
     }
 
     /* some properties for the 3 bar lines*/
@@ -327,6 +397,7 @@ label.btn input[type=file]{
         background: linear-gradient(to left, rgb(213, 214, 221), rgb(168, 171, 173));
         width: 100%; /*Use 100% of the width set in .nav-menu*/
         height: 4px;
+        /* border-radius: .8rem; */
     }
 
     .nav-list{
@@ -346,25 +417,49 @@ label.btn input[type=file]{
         top: 0;
         transition: all 700ms cubic-bezier(0, 1, 1, 1);
         pointer-events: all;
+        /* font-size: 2rem; */
     }
 
     .nav-link:hover{
         border-bottom: .1em solid rgb(194, 183, 183);
         transition: all 500ms cubic-bezier(0, 1, 1, 1);
     }
+    /* .top-nav{
+        transition:all 700ms cubic-bezier(1,0,0,1);
+    }
+    .top-nav.open{
+        height: 100%;
+        transition:all 700ms cubic-bezier(1,0,0,1);
+    } */
 }
 
 
 @media only screen and (min-width:801px){
 
-    .nav-link{
+    .nav-link{    
+        /* align-items: center; */
         padding: 0.7rem 3rem;
         display: flex;
         flex-direction: row;
     }
 
+    /*Nav list formating
+    basically make it use
+    all of the height of the nav bar
+    and make all the items in the lsit spaced evenly
+    */
+    /* .nav-list{
+        position: absolute;
+        margin: 0;
+        justify-content: space-evenly; 
+        height: 100%;
+        display: flex;;
+      
+    } */
     /*hovering over a link in the navbar*/
     .nav-link:hover{
+        /* display: flex;
+        filter: grayscale(0%) opacity(1); */
         background: linear-gradient(to top,  rgb(20, 20, 20), rgb(39, 39, 39));
     }
 
