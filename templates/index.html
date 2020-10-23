@@ -114,32 +114,35 @@
                     map.on('load', function () {
                         $.getJSON(COORDS_URL, {key: key, coords : coords},
                             function(data){
-                                    //put mapbox here 
-                                map.addSource('route', {
-                                    'type': 'geojson',
-                                    'data': {
-                                        'type': 'Feature',
-                                        'properties': {},
-                                        'geometry': {
-                                        'type': 'LineString',
-                                        'coordinates': data.coords
-                                    }
+                                    //put mapbox here
+                                if (coords != []){
+                                    map.addSource('route', {
+                                        'type': 'geojson',
+                                        'data': {
+                                            'type': 'Feature',
+                                            'properties': {},
+                                            'geometry': {
+                                            'type': 'LineString',
+                                            'coordinates': data.coords
+                                            }
+                                        }
+                                    });
+                                    map.addLayer({
+                                        'id': 'route',
+                                        'type': 'line',
+                                        'source': 'route',
+                                        'layout': {
+                                            'line-join': 'round',
+                                            'line-cap': 'round'
+                                        },
+                                        'paint': {
+                                            'line-color': '#000080',
+                                            'line-width': 8
+                                        }
+                                    });
                                 }
-                            });
-                            map.addLayer({
-                                'id': 'route',
-                                'type': 'line',
-                                'source': 'route',
-                                'layout': {
-                                    'line-join': 'round',
-                                    'line-cap': 'round'
-                                },
-                                'paint': {
-                                    'line-color': '#000080',
-                                    'line-width': 8
-                                }
-                            });
-                        });
+                            }
+                        );
                     });
                     
                 });

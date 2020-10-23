@@ -73,6 +73,7 @@ def give_coords():
         coords_list = session['coords_list']
         zoom_value = 7
     else:
+        coords_list = []
         zoom_value = 1        
     return jsonify({'key' : mapbox_key, 'coords': coords_list, 'zoom' : zoom_value})
 
