@@ -7,6 +7,7 @@ from werkzeug.exceptions import HTTPException, default_exceptions, Aborter
 #from wtforms import SubmitField
 import pprint
 import locationParse
+import requests
 
 
 class FileTypeException(HTTPException):   # this error is thrown when the file type is incorrect
@@ -54,7 +55,9 @@ def index():
                     unit = "m"
                 instructions.append((cue['maneuver'], cue['distance'], unit))
                 coordinates.append(cue['coordinate'])
-        return render_template("index.html", instructions = instructions, cue_coordinates = coordinates)
+
+            json_coords = json.dumps(coordinates) # python to JSON object
+        return render_template("index.html", instructions = instructions, cue_coordinates = json_cords)
         #return redirect(url_for("index"))
 
     return render_template("index.html"), 200
